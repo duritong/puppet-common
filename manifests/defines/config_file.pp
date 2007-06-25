@@ -8,8 +8,13 @@
 # }
 define config_file ($content) {
 	file { $name:
-		content => $content, backup => server,
+		content => $content,
+		# keep old versions on the server
+		backup => server,
+		# default permissions for config files
 		mode => 0644, owner => root, group => root,
+		# really detect changes to this file
+		checksum => md5,
 	}
 }
 
