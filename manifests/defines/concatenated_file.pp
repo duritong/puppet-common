@@ -18,7 +18,7 @@ define concatenated_file ( $dir, $mode = 0644, $owner = root, $group = root ) {
 			mode => $mode, owner => $owner, group => $group;
 	}
 
-	exec { "find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | xargs -0 cat > ${name}":
+	exec { "find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat > ${name}":
 		refreshonly => true,
 		subscribe => File[$dir],
 	}
