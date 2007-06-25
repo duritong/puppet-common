@@ -13,7 +13,7 @@ class assert_lsbdistcodename {
 
 	case $lsbdistcodename {
 		'': {
-			err("Please install lsb_release or set facter_lsbdistcodename in the environment")
+			err("Please install lsb_release or set facter_lsbdistcodename in the environment of $fqdn")
 			exec { "/bin/false # assert_lsbdistcodename": alias => assert_lsbdistcodename }
 		}
 		default: {
