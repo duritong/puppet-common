@@ -20,6 +20,8 @@ define concatenated_file (
 	file {
 		$dir:
 			ensure => directory, checksum => mtime,
+			## This doesn't work as expected
+			#recurse => true, purge => true, noop => true,
 			mode => $mode, owner => $owner, group => $group;
 		$name:
 			ensure => present, checksum => md5,
