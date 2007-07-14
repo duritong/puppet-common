@@ -7,6 +7,8 @@ file {
 	# module-local data, e.g. for constructing config files
 	"/var/lib/puppet/modules":
 		ensure => directory,
+		source => "puppet://$servername/common/modules/",
+		recurse => true, purge => true,
 		mode => 0755, owner => root, group => root;
 	# prepare directories to drop various puppet enhancements
 	[ "$rubysitedir/puppet", "$rubysitedir/facter" ]:
