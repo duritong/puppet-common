@@ -19,18 +19,19 @@ define concatenated_file (
 {
 	file {
 		$dir:
-			ensure => directory, checksum => mtime,
-			## This doesn't work as expected
-			#recurse => true, purge => true, noop => true,
+			source => "puppet://$servername/common/empty",
+			checksum => mtime,
+			recurse => true, purge => true,
 			mode => $mode, owner => $owner, group => $group;
 		$name:
 			ensure => present, checksum => md5,
 			mode => $mode, owner => $owner, group => $group;
 	}
 
-	exec { "find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat > ${name}":
-		refreshonly => true,
+	exec { "/usr/bin/find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat > ${name}":
+		# refreshonly => true,
 		subscribe => File[$dir],
+		before => File[$name],
 		alias => "concat_${name}",
 	}
 }
