@@ -21,7 +21,7 @@ define concatenated_file (
 		$dir:
 			source => "puppet://$servername/common/empty",
 			checksum => mtime,
-			recurse => true, purge => true,
+			recurse => true, purge => true, force => true,
 			mode => $mode, owner => $owner, group => $group;
 		$name:
 			ensure => present, checksum => md5,
