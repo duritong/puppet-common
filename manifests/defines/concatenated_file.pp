@@ -18,6 +18,8 @@ define concatenated_file (
 	$dir,
 	# a file with content to prepend
 	$header = '',
+	# a file with content to append
+	$footer = '',
 	$mode = 0644, $owner = root, $group = root
 	)
 {
@@ -33,8 +35,8 @@ define concatenated_file (
 			mode => $mode, owner => $owner, group => $group;
 	}
 
-	# if there is a header file, prepend it
-	$header_cmd = $header? { '' => '', default => "| cat ${header} - " }
+	# if there is a header or footer file, add it
+	$additional_cmd = "$header$footer" ? { '' => '', default => "| cat '${header}' - '${footer}' " }
 
 	# use >| to force clobbering the target file
 	exec { "/usr/bin/find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat ${header_cmd} >| ${name}.puppettmp":
