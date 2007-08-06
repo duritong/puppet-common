@@ -22,17 +22,19 @@ define concatenated_file (
 			source => "puppet://$servername/common/empty",
 			checksum => mtime,
 			recurse => true, purge => true, force => true,
-			mode => $mode, owner => $owner, group => $group;
+			mode => $mode, owner => $owner, group => $group,
+			notify => Exec["concat_${name}"];
 		$name:
 			ensure => present, checksum => md5,
 			mode => $mode, owner => $owner, group => $group;
 	}
 
-	exec { "/usr/bin/find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat > ${name}":
-		# refreshonly => true,
+	# use >| to force clobbering the target file
+	exec { "/usr/bin/find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat >| ${name}":
+		refreshonly => true,
 		subscribe => File[$dir],
 		before => File[$name],
-		alias => "concat_${name}",
+		alias => [ "concat_${name}", "concat_${dir}"] ,
 	}
 }
 
@@ -49,6 +51,7 @@ define concatenated_file_part (
 		ensure => $ensure, content => $content,
 		mode => $mode, owner => $owner, group => $group,
 		alias => "cf_part_${name}",
+		notify => Exec["concat_${dir}"],
 	}
 
 }
