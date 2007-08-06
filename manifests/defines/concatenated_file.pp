@@ -14,7 +14,11 @@
 # }
 # Use Exec["concat_$name"] as Semaphor
 define concatenated_file (
-	$dir, $mode = 0644, $owner = root, $group = root 
+	# where the snippets are located
+	$dir,
+	# a file with content to prepend
+	$header = '',
+	$mode = 0644, $owner = root, $group = root
 	)
 {
 	file {
@@ -29,8 +33,11 @@ define concatenated_file (
 			mode => $mode, owner => $owner, group => $group;
 	}
 
+	# if there is a header file, prepend it
+	$header_cmd = $header? { '' => '', default => "| cat ${header} - " }
+
 	# use >| to force clobbering the target file
-	exec { "/usr/bin/find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat >| ${name}":
+	exec { "/usr/bin/find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat ${header_cmd} >| ${name}.puppettmp":
 		refreshonly => true,
 		subscribe => File[$dir],
 		before => File[$name],
