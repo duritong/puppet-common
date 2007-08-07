@@ -3,9 +3,6 @@
 # See LICENSE for the full license granted to you.
 
 define puppet::function($source) {
-	$destination = $type ? {
-		"fact" => "${rubysitedir}/facter/${name}.rb",
-	}
 	file {
 		"${rubysitedir}/puppet/parser/functions/${name}.rb":
 			source => $source,
