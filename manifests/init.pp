@@ -10,17 +10,12 @@ file {
 		source => "puppet://$servername/common/modules/",
 		recurse => true, purge => true, force => true,
 		mode => 0755, owner => root, group => root;
-	# prepare directories to drop various puppet enhancements
-	[ "$rubysitedir/puppet", "$rubysitedir/facter" ]:
-		ensure => directory, 
-		mode => 0755, owner => root, group => root;
 }
 
 class common::puppetmaster {
-
 	file { 
-		"$rubysitedir/puppet/parser":
-			ensure => directory, 
+		"${rubysitedir}/puppet/parser":
+			ensure => directory,
 			mode => 0755, owner => root, group => root;
 		"$rubysitedir/puppet/parser/functions":
 			source => "puppet://$servername/common/functions/",
