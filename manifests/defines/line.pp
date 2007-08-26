@@ -6,9 +6,9 @@
 # line { description:
 # 	file => "filename",
 # 	line => "content",
-# 	ensure => {absent,present}
+# 	ensure => {absent,*present*}
 # }
-define line($file, $line, $ensure) {
+define line($file, $line, $ensure = 'present') {
 	case $ensure {
 		default : { err ( "unknown ensure value $ensure" ) }
 		present: {
