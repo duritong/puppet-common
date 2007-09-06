@@ -5,7 +5,9 @@
 # prepare directories to drop various puppet enhancements
 file {
 	[
-		"${rubysitedir}", "${rubysitedir}/puppet",
+		"${rubysitedir}",
+		"${rubysitedir}/facter",
+		"${rubysitedir}/puppet",
 		"${rubysitedir}/puppet/provider",
 		"${rubysitedir}/puppet/provider/user",
 		"${rubysitedir}/puppet/provider/group"
