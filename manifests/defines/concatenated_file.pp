@@ -23,13 +23,21 @@ define concatenated_file (
 	$mode = 0644, $owner = root, $group = root
 	)
 {
+
+	if defined(File[$dir]) {
+		debug("${dir} already defined")
+	} else {
+		file {
+			$dir:
+				source => "puppet://$servername/common/empty",
+				checksum => mtime,
+				recurse => true, purge => true, force => true,
+				mode => $mode, owner => $owner, group => $group,
+				notify => Exec["concat_${name}"];
+		}
+	}
+
 	file {
-		$dir:
-			source => "puppet://$servername/common/empty",
-			checksum => mtime,
-			recurse => true, purge => true, force => true,
-			mode => $mode, owner => $owner, group => $group,
-			notify => Exec["concat_${name}"];
 		$name:
 			ensure => present, checksum => md5,
 			mode => $mode, owner => $owner, group => $group;

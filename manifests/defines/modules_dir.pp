@@ -10,11 +10,16 @@ define modules_dir (
 		$mode = 0755, $owner = root, $group = root
 	)
 {
-	file {
-		"/var/lib/puppet/modules/${name}":
-			source => [ "puppet://$servername/${name}/modules_dir", "puppet://$servername/common/empty"], 
-			checksum => mtime,
-			recurse => true, purge => true, force => true,
-			mode => $mode, owner => $owner, group => $group;
+	$dir = "/var/lib/puppet/modules/${name}"
+	if defined(File[$dir]) {
+		debug("${dir} already defined")
+	} else {
+		file {
+			"/var/lib/puppet/modules/${name}":
+				source => [ "puppet://$servername/${name}/modules_dir", "puppet://$servername/common/empty"], 
+				checksum => mtime,
+				recurse => true, purge => true, force => true,
+				mode => $mode, owner => $owner, group => $group;
+		}
 	}
 }
