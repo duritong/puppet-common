@@ -9,7 +9,8 @@
 #           pattern => "regexp",
 #           replacement => "replacement"
 #
-# For example, to replace the current port in /etc/munin/munin-node.conf
+# Example:
+# To replace the current port in /etc/munin/munin-node.conf
 # with a new port, but only disturbing the file when needed:
 #
 # replace { set_munin_node_port:
