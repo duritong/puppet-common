@@ -4,13 +4,20 @@
 
 # Usage:
 #
-# # replace the current port in /etc/munin/munin-node.conf
-# # with a new, only disturbing the file when needed
+# replace { description: 
+#           file => "filename",
+#           pattern => "regexp",
+#           replacement => "replacement"
+#
+# For example, to replace the current port in /etc/munin/munin-node.conf
+# with a new port, but only disturbing the file when needed:
+#
 # replace { set_munin_node_port:
 # 	file => "/etc/munin/munin-node.conf",
 # 	pattern => "^port (?!$port)[0-9]*",
 # 	replacement => "port $port"
 # }  
+
 define replace($file, $pattern, $replacement) {
 	$pattern_no_slashes = slash_escape($pattern)
 	$replacement_no_slashes = slash_escape($replacement)
@@ -20,6 +27,3 @@ define replace($file, $pattern, $replacement) {
 		alias => "exec_$name",
 	}
 }
-
-
-
