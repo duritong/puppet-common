@@ -12,17 +12,5 @@ file {
 		mode => 0755, owner => root, group => root;
 }
 
-class common::puppetmaster {
-	file { 
-		"${rubysitedir}/puppet/parser":
-			ensure => directory,
-			mode => 0755, owner => root, group => root;
-		"$rubysitedir/puppet/parser/functions":
-			source => "puppet://$servername/common/functions/",
-			recurse => true, purge => true,
-			mode => 0755, owner => root, group => root;
-	}
-}
-
 import "defines/*.pp"
 import "classes/*.pp"
