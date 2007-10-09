@@ -27,8 +27,9 @@
 #              notify => Exec["reload-apache2"]
 # }
 
-define config_file ($content) {
+define config_file ($content, $ensure = 'present') {
 	file { $name:
+		ensure => $ensure,
 		content => $content,
 		# keep old versions on the server
 		backup => server,
