@@ -7,7 +7,7 @@
 # Usage:
 # modules_dir { ["common", "common/dir1", "common/dir2" ]: }
 define modules_dir (
-		$mode = 0755, $owner = root, $group = root
+		$mode = 0644, $owner = root, $group = root
 	)
 {
 	$dir = "/var/lib/puppet/modules/${name}"
