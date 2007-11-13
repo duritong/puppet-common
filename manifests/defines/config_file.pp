@@ -27,10 +27,9 @@
 #              notify => Exec["reload-apache2"]
 # }
 
-define config_file ($content, $ensure = 'present') {
+define config_file ($content = '', $source = '', $ensure = 'present') {
 	file { $name:
 		ensure => $ensure,
-		content => $content,
 		# keep old versions on the server
 		backup => server,
 		# default permissions for config files
@@ -38,6 +37,17 @@ define config_file ($content, $ensure = 'present') {
 		# really detect changes to this file
 		checksum => md5,
 	}
+
+	case $content {
+		'': {
+			case $source {
+				'': { }
+				default: { File[$name] { source => $source } }
+			}
+		}
+		default: { File[$name] { content => $content } }
+	}
+				
 }
 
 
