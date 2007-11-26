@@ -33,8 +33,8 @@ class assert_lsbdistcodename {
 			exec { "/bin/false # assert_lsbdistcodename": alias => assert_lsbdistcodename }
 		}
 		default: {
-			exec { "/bin/true # assert_lsbdistcodename": alias => assert_lsbdistcodename }
-			exec { "/bin/true # require_lsbdistcodename": alias => require_lsbdistcodename }
+			exec { "/bin/true # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => debug }
+			exec { "/bin/true # require_lsbdistcodename": alias => require_lsbdistcodename, loglevel => debug }
 		}
 	}
 
