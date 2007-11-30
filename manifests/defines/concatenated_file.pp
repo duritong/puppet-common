@@ -5,7 +5,6 @@
 # See LICENSE for the full license granted to you.
 
 # TODO:
-# * get rid of the $dir parameter
 # * create the directory in _part too
 
 # Usage:
@@ -15,7 +14,7 @@
 # Use Exec["concat_$name"] as Semaphor
 define concatenated_file (
 	# where the snippets are located
-	$dir,
+	$dir = '',
 	# a file with content to prepend
 	$header = '',
 	# a file with content to append
@@ -24,11 +23,13 @@ define concatenated_file (
 	)
 {
 
-	if defined(File[$dir]) {
-		debug("${dir} already defined")
+	$dir_real = $dir ? { '' => "${name}.d", default => $dir }
+
+	if defined(File[$dir_real]) {
+		debug("${dir_real} already defined")
 	} else {
 		file {
-			$dir:
+			$dir_real:
 				source => "puppet://$servername/common/empty",
 				checksum => mtime,
 				recurse => true, purge => true, force => true,
@@ -56,11 +57,11 @@ define concatenated_file (
 	}
 
 	# use >| to force clobbering the target file
-	exec { "/usr/bin/find ${dir} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat ${additional_cmd} >| ${name}":
+	exec { "/usr/bin/find ${dir_real} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat ${additional_cmd} >| ${name}":
 		refreshonly => true,
-		subscribe => File[$dir],
+		subscribe => File[$dir_real],
 		before => File[$name],
-		alias => [ "concat_${name}", "concat_${dir}"] ,
+		alias => [ "concat_${name}", "concat_${dir_real}"] ,
 	}
 }
 
