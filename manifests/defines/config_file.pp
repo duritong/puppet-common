@@ -33,7 +33,7 @@ define config_file ($content = '', $source = '', $ensure = 'present') {
 		# keep old versions on the server
 		backup => server,
 		# default permissions for config files
-		mode => 0644, owner => root, group => root,
+		mode => 0644, owner => root, group => 0,
 		# really detect changes to this file
 		checksum => md5,
 	}

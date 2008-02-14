@@ -19,7 +19,7 @@ define concatenated_file (
 	$header = '',
 	# a file with content to append
 	$footer = '',
-	$mode = 0644, $owner = root, $group = root
+	$mode = 0644, $owner = root, $group = 0
 	)
 {
 
@@ -70,7 +70,7 @@ define concatenated_file (
 # The file can be referenced as File["cf_part_${name}"]
 define concatenated_file_part (
 	$dir, $content = '', $ensure = present,
-	$mode = 0644, $owner = root, $group = root 
+	$mode = 0644, $owner = root, $group = 0 
 	)
 {
 
