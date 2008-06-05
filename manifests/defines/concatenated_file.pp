@@ -30,7 +30,7 @@ define concatenated_file (
 	} else {
 		file {
 			$dir_real:
-				source => "puppet://$servername/common/empty",
+				source => "puppet:///common/empty",
 				checksum => mtime,
 				recurse => true, purge => true, force => true,
 				mode => $mode, owner => $owner, group => $group,

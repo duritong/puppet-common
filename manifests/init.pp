@@ -7,7 +7,7 @@ file {
 	# module-local data, e.g. for constructing config files
 	"/var/lib/puppet/modules":
 		ensure => directory,
-		source => "puppet://$servername/common/modules/",
+		source => "puppet:///common/modules/",
 		ignore => ".svn",
 		recurse => true, purge => true, force => true,
 		mode => 0755, owner => root, group => 0;
