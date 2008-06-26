@@ -32,7 +32,7 @@ define line($file, $line, $ensure = 'present') {
 			}
 		}
 		absent: {
-			exec { "perl -ni -e 'print unless /^\\Q${line}\\E\$/' '${file}'":
+			exec { "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
 				onlyif => "grep -qFx '${line}' '${file}'"
 			}
 		}
