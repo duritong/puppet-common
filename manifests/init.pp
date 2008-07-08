@@ -8,7 +8,7 @@ file {
 	"/var/lib/puppet/modules":
 		ensure => directory,
 		source => "puppet:///common/modules/",
-		ignore => ".svn",
+		ignore => ".ignore",
 		recurse => true, purge => true, force => true,
 		mode => 0755, owner => root, group => 0;
 }

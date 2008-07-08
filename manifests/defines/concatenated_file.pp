@@ -32,6 +32,7 @@ define concatenated_file (
 			$dir_real:
 				source => "puppet:///common/empty",
 				checksum => mtime,
+				ignore => '.ignore',
 				recurse => true, purge => true, force => true,
 				mode => $mode, owner => $owner, group => $group,
 				notify => Exec["concat_${name}"];
