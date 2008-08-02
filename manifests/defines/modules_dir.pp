@@ -19,7 +19,7 @@ define modules_dir (
 				source => [ "puppet:///${name}/modules_dir", "puppet:///common/empty"],
 				checksum => mtime,
 				# ignore the placeholder
-				ignore => '.ignore', 
+				ignore => '\.ignore', 
 				recurse => true, purge => true, force => true,
 				mode => $mode, owner => $owner, group => $group;
 		}
