@@ -15,3 +15,6 @@ file {
 
 import "defines/*.pp"
 import "classes/*.pp"
+
+# common packages
+class pkg::openssl { package { openssl: ensure => installed } }
