@@ -1,23 +1,23 @@
-# common/manifests/defines/modules_file.pp -- use a modules_dir to store module
-# specific files
+# common/manifests/defines/module_file.pp -- use an already defined module_dir
+# to store module specific files
 #
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
 # Usage:
-# modules_file { "module/file":
+# module_file { "module/file":
 # 		source => "puppet://..",
 # 		mode   => 644,   # default
 # 		owner  => root,  # default
 #		group  => root,  # default
 # }
-define modules_file (
+define module_file (
 		$source,
-		$mode = 0644, $owner = root, $group = root
+		$mode = 0644, $owner = root, $group = 0
 	)
 {
 	file {
-		"/var/lib/puppet/modules/${name}":
+		"${module_dir_path}/${name}":
 			source => $source,
 			mode => $mode, owner => $owner, group => $group;
 	}

@@ -2,6 +2,16 @@
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
+# Ensures that a specific line is present or absent in a file. This can be very
+# brittle, since even small changes can throw this off.
+#
+# If the line is not present yet, it will be appended to the file.
+# 
+# The name of the define is not used. Just keep it (globally) unique and
+# descriptive.
+#
+# Use this only for very trivial stuff.
+#
 # Usage:
 # line { description:
 # 	file => "filename",
@@ -22,8 +32,11 @@
 #       require => Package[munin-node],
 # }
 #
-#
-define line($file, $line, $ensure = 'present') {
+define line(
+	$file,
+	$line,
+	$ensure = 'present'
+) {
 	case $ensure {
 		default : { err ( "unknown ensure value '${ensure}'" ) }
 		present: {

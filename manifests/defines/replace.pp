@@ -2,6 +2,13 @@
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
+# A hack to replace all ocurrances of a regular expression in a file with a
+# specified string. Sometimes it can be less effort to replace only a single
+# value in a huge config file instead of creating a template out of it. Still,
+# creating a template is often better than this hack.
+#
+# This define uses perl regular expressions.
+# 
 # Usage:
 #
 # replace { description: 
@@ -20,8 +27,9 @@
 # }  
 
 define replace($file, $pattern, $replacement) {
-	$pattern_no_slashes = slash_escape($pattern)
-	$replacement_no_slashes = slash_escape($replacement)
+	$pattern_no_slashes = regsubst($pattern, '/', '\\/', 'G', 'U')
+	$replacement_no_slashes = regsubst($replacement, '/', '\\/', 'G', 'U')
+
 	exec { "replace_${pattern}_${file}":
 		command => "/usr/bin/perl -pi -e 's/${pattern_no_slashes}/${replacement_no_slashes}/' '${file}'",
 		onlyif => "/usr/bin/perl -ne 'BEGIN { \$ret = 1; } \$ret = 0 if /${pattern_no_slashes}/ && ! /\\Q${replacement_no_slashes}\\E/; END { exit \$ret; }' '${file}'",

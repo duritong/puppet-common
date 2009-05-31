@@ -2,6 +2,8 @@
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
+# A simple wrapper to give all configuration files common defaults.
+# 
 # Usage:
 # config_file { filename:
 # 	content => "....\n",
@@ -27,7 +29,11 @@
 #              notify => Exec["reload-apache2"]
 # }
 
-define config_file ($content = '', $source = '', $ensure = 'present') {
+define config_file (
+	$content = '',
+	$source = '',
+	$ensure = 'present')
+{
 	file { $name:
 		ensure => $ensure,
 		# keep old versions on the server

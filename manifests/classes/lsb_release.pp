@@ -14,12 +14,15 @@
 # 
 # To fail individual resources on a missing lsbdistcodename, require
 # Exec[assert_lsbdistcodename] on the specific resource
+#
+# This is just one example of how you could avoid evaluation of parts of the
+# manifest, before a bootstrapping class has enabled all the necessary goodies.
 class assert_lsbdistcodename {
 
 	case $lsbdistcodename {
 		'': {
 			err("Please install lsb_release or set facter_lsbdistcodename in the environment of $fqdn")
-			exec { "false # assert_lsbdistcodename": alias => assert_lsbdistcodename }
+			exec { "false # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => err }
 		}
 		'n/a': {
 			case $operatingsystem {
@@ -30,11 +33,11 @@ class assert_lsbdistcodename {
 					err("lsb_release was unable to report your distcodename; please set facter_lsbdistcodename in the environment of $fqdn")
 				}
 			}
-			exec { "false # assert_lsbdistcodename": alias => assert_lsbdistcodename }
+			exec { "false # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => err }
 		}
 		default: {
-			exec { "true # assert_lsbdistcodename": alias => assert_lsbdistcodename }
-			exec { "true # require_lsbdistcodename": alias => require_lsbdistcodename }
+			exec { "true # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => debug }
+			exec { "true # require_lsbdistcodename": alias => require_lsbdistcodename, loglevel => debug }
 		}
 	}
 
@@ -42,5 +45,5 @@ class assert_lsbdistcodename {
 
 # To fail the complete compilation, include this class
 class require_lsbdistcodename inherits assert_lsbdistcodename {
-	exec { "false # require_lsbdistcodename": require => Exec[require_lsbdistcodename], }
+	exec { "false # require_lsbdistcodename": require => Exec[require_lsbdistcodename], loglevel => err }
 }
