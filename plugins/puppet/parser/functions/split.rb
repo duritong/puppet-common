@@ -1,8 +1,14 @@
-# split($string, $delimiter) : $string
-# split($string[], $delimiter) : $string[][]
+# This function has two modes of operation: 
 #
-# Split the first argument(s) on every $delimiter. $delimiter is interpreted as
+#  split($string, $delimiter) : $string
+#
+# Split the first argument on every $delimiter. $delimiter is interpreted as
 # Ruby regular expression.
+#
+#  split($string[], $delimiter) : $string[][]
+#
+# Returns an array of split results with the result of applying split to each
+# item from the first argument. 
 #
 # For long-term portability it is recommended to refrain from using Ruby's
 # extended RE features.

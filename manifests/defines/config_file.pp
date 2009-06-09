@@ -5,30 +5,31 @@
 # A simple wrapper to give all configuration files common defaults.
 # 
 # Usage:
-# config_file { filename:
-# 	content => "....\n",
-# }
+#  config_file { filename:
+#  	content => "....\n",
+#  }
 #
 # Examples: 
 #
 # To create the file /etc/vservers/${vs_name}/context with specific
 # content:
 #
-# config_file { "/etc/vservers/${vs_name}/context":
-#              content => "${context}\n",
-#              notify => Exec["vs_restart_${vs_name}"],
-#              require => Exec["vs_create_${vs_name}"];
+#  config_file {
+#  	"/etc/vservers/${vs_name}/context":
+#  		content => "${context}\n",
+#  		notify => Exec["vs_restart_${vs_name}"],
+#  		require => Exec["vs_create_${vs_name}"];
 # }
 #
 # To create the file /etc/apache2/sites-available/munin-stats with the
 # content pulled from a template:
 #
-# config_file { "/etc/apache2/sites-available/munin-stats":
-#              content => template("apache/munin-stats"),
-#              require => Package["apache2"],
-#              notify => Exec["reload-apache2"]
-# }
-
+#  config_file {
+# 		"/etc/apache2/sites-available/munin-stats":
+#  		content => template("apache/munin-stats"),
+#  		require => Package["apache2"],
+#  		notify => Exec["reload-apache2"];
+#  }
 define config_file (
 	$content = '',
 	$source = '',

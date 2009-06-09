@@ -4,12 +4,12 @@
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
+# Put a file into module-local storage.
+#
 # Usage:
-# module_file { "module/file":
-# 		source => "puppet://..",
-# 		mode   => 644,   # default
-# 		owner  => root,  # default
-#		group  => root,  # default
+#  module_file {
+#  	"module/file":
+# 			source => "puppet://..",
 # }
 define module_file (
 		$source,

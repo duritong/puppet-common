@@ -8,6 +8,9 @@
 # creating a template is often better than this hack.
 #
 # This define uses perl regular expressions.
+#
+# Use this only for very trivial stuff. Usually replacing the whole file is a
+# more stable solution with less maintenance headaches afterwards. 
 # 
 # Usage:
 #
@@ -20,12 +23,12 @@
 # To replace the current port in /etc/munin/munin-node.conf
 # with a new port, but only disturbing the file when needed:
 #
-# replace { set_munin_node_port:
-# 	file => "/etc/munin/munin-node.conf",
-# 	pattern => "^port (?!$port)[0-9]*",
-# 	replacement => "port $port"
-# }  
-
+#  replace {
+#  	set_munin_node_port:
+#  		file => "/etc/munin/munin-node.conf",
+#  		pattern => "^port (?!$port)[0-9]*",
+#  		replacement => "port $port"
+#  }  
 define replace($file, $pattern, $replacement) {
 	$pattern_no_slashes = regsubst($pattern, '/', '\\/', 'G', 'U')
 	$replacement_no_slashes = regsubst($replacement, '/', '\\/', 'G', 'U')

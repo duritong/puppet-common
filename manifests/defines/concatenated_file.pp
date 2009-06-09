@@ -26,9 +26,9 @@ module_dir { "common/cf": }
 # Exec["concat_${name}"] if you want to force an update.
 # 
 # Usage:
-# concatenated_file { "/etc/some.conf":
-# 	dir => "/etc/some.conf.d",
-# }
+#  concatenated_file { "/etc/some.conf":
+#  	dir => "/etc/some.conf.d",
+#  }
 define concatenated_file (
 	# where the snippets are located
 	$dir = '',
