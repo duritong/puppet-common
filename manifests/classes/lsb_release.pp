@@ -33,11 +33,11 @@ class assert_lsbdistcodename {
 					err("lsb_release was unable to report your distcodename; please set facter_lsbdistcodename in the environment of $fqdn")
 				}
 			}
-			exec { "false # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => err }
+			exec { "/bin/false # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => err }
 		}
 		default: {
-			exec { "true # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => debug }
-			exec { "true # require_lsbdistcodename": alias => require_lsbdistcodename, loglevel => debug }
+			exec { "/bin/true # assert_lsbdistcodename": alias => assert_lsbdistcodename, loglevel => debug }
+			exec { "/bin/true # require_lsbdistcodename": alias => require_lsbdistcodename, loglevel => debug }
 		}
 	}
 
