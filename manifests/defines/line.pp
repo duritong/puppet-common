@@ -34,24 +34,33 @@
 #  		notify => Service[munin-node],
 #  		require => Package[munin-node];
 #  }
-define line(
-	$file,
-	$line,
-	$ensure = 'present'
-) {
-	case $ensure {
-		default : { err ( "unknown ensure value '${ensure}'" ) }
-		present: {
-			exec { "echo '${line}' >> '${file}'":
-				unless => "grep -qFx '${line}' '${file}'"
-			}
-		}
-		absent: {
-			exec { "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
-				onlyif => "grep -qFx '${line}' '${file}'"
-			}
-		}
-	}
+#
+# Code with fixes gathered at
+# http://reductivelabs.com/trac/puppet/wiki/Recipes/SimpleText
+define line($file, $line, $ensure = 'present') {
+  case $ensure {
+    default: { err ( "unknown ensure value ${ensure}" ) }
+    present: {
+      exec { "/bin/echo '${line}' >> '${file}'":
+        unless  => "/bin/grep -qFx '${line}' '${file}'",
+        require => File["${file}"],
+      }
+    }
+    absent: {
+      exec { "/usr/bin/perl -ni -e 'print unless /^\\Q${line}\\E\$/' '${file}'":
+        onlyif => "/bin/grep -qFx '${line}' '${file}'",
+      }
+    }
+    uncomment: {
+      exec { "/bin/sed -i -e'/${line}/s/^#\+//' '${file}'":
+        onlyif => "/bin/grep '${line}' '${file}' | /bin/grep '^#' | /usr/bin/wc -l"
+      }
+    }
+    comment: {
+      exec { "/bin/sed -i -e'/${line}/s/^\(.\+\)$/#\1/' '${file}'":
+        onlyif  => "/usr/bin/test `/bin/grep '${line}' '${file}' | /bin/grep -v '^#' | /usr/bin/wc -l` -ne 0",
+        require => File["${file}"],
+      }
+    }
+  }
 }
-
-
