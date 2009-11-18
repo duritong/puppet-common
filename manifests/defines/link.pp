@@ -15,6 +15,12 @@ define link(
             ensure => link,
             target => "${target}"
       }
+    }else{
+      file { "$name":
+            ensure => absent,
+            recurse => true,
+            force => true
+      }
     }
 }
 
