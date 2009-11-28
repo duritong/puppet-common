@@ -9,7 +9,7 @@
 # of puppet, the full path is /var/lib/puppet/modules/${name}. Every module
 # should # prefix its module_dirs with its name.
 # 
-# By default, the module_dir is loaded from "puppet:///$server/${name}/module_dir". If
+# By default, the module_dir is loaded from "puppet:///${name}/module_dir". If
 # that doesn't exist an empty directory is taken as source. The directory is
 # purged so that modules do not have to worry about removing cruft.
 # 
@@ -27,7 +27,7 @@ define module_dir (
 	} else {
 		file {
 			$dir:
-				source => [ "puppet://$server/${name}/module_dir", "puppet://$server/common/empty"],
+				source => [ "puppet://$server/modules/${name}/module_dir", "puppet://$server/modules/common/empty"],
 				checksum => mtime,
 				# ignore the placeholder
 				ignore => '\.ignore', 
