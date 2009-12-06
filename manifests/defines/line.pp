@@ -14,12 +14,12 @@
 # is a more stable solution with less maintenance headaches afterwards.
 #
 # Usage:
-#  line {
-#  	description:
-# 			file => "filename",
-#  		line => "content",
-# 			ensure => {absent,*present*}
-#  }
+# line {
+#   description:
+#     file => "filename",
+#     line => "content",
+#     ensure => {absent,*present*}
+# }
 #
 # Example:
 # The following ensures that the line "allow ^$munin_host$" exists in

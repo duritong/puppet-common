@@ -13,7 +13,7 @@ file {
 		 # for details
        "/var/lib/puppet/modules":
                ensure => directory,
-               source => "puppet:///common/modules",
+               source => "puppet://$server/modules/common/modules",
                ignore => ".ignore",
                recurse => true, purge => true, force => true,
                mode => 0755, owner => root, group => 0;
