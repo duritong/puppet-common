@@ -25,3 +25,11 @@ define modules_dir (
 		}
 	}
 }
+
+# alias for compatibility
+define module_dir (
+		$mode = 0644, $owner = root, $group = 0
+	)
+{
+  modules_dir{$name: mode => $mode, owner => $owner, group => $group }
+}
