@@ -33,6 +33,8 @@ define module_dir (
 				ignore => '\.ignore', 
 				recurse => true, purge => true, force => true,
 				mode => $mode, owner => $owner, group => $group;
+				# TODO: remove after 0.25.2 is released, see http://projects.reductivelabs.com/issues/2786:
+				backup => false,
 		}
 	}
 }
