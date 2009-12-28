@@ -28,13 +28,11 @@ define module_dir (
 		file {
 			$dir:
 				source => [ "puppet://$server/modules/${name}/module_dir", "puppet://$server/modules/common/empty"],
-				#checksum => mtime,
+				checksum => mtime,
 				# ignore the placeholder
 				ignore => '\.ignore', 
 				recurse => true, purge => true, force => true,
-				mode => $mode, owner => $owner, group => $group,
-				# TODO: remove after 0.25.2 is released, see http://projects.reductivelabs.com/issues/2786:
-				backup => false,
+				mode => $mode, owner => $owner, group => $group;
 		}
 	}
 }
