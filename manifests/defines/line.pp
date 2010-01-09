@@ -4,9 +4,9 @@
 
 # Usage:
 # line { description:
-# 	file => "filename",
-# 	line => "content",
-# 	ensure => {absent,*present*}
+#   file => "filename",
+#   line => "content",
+#   ensure => {absent,*present*}
 # }
 #
 # Example:
@@ -24,19 +24,20 @@
 #
 #
 define line($file, $line, $ensure = 'present') {
-	case $ensure {
-		default : { err ( "unknown ensure value '${ensure}'" ) }
-		present: {
-			exec { "echo '${line}' >> '${file}'":
-				unless => "grep -qFx '${line}' '${file}'"
-			}
-		}
-		absent: {
-			exec { "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
-				onlyif => "grep -qFx '${line}' '${file}'"
-			}
-		}
-	}
+  case $ensure {
+    default : { err ( "unknown ensure value '${ensure}'" ) }
+    present: {
+      exec { "echo '${line}' >> '${file}'":
+        unless => "grep -qFx '${line}' '${file}'"
+      }
+    }
+    absent: {
+      $subst_line = regsubst($line,'(/|\.)','\\\1','G')
+      exec { "/bin/sed -i '/${subst_line}/d' '${file}'":
+        onlyif => "/bin/grep -qFx '${line}' '${file}'"
+      }
+    }
+  }
 }
 
 
