@@ -33,8 +33,8 @@ define line($file, $line, $ensure = 'present') {
     }
     absent: {
       $subst_line = regsubst($line,'(/|\.)','\\\1','G')
-      exec { "/bin/sed -i '/${subst_line}/d' '${file}'":
-        onlyif => "/bin/grep -qFx '${line}' '${file}'"
+      exec { "sed -i '/${subst_line}/d' '${file}'":
+        onlyif => "grep -qFx '${line}' '${file}'"
       }
     }
   }
