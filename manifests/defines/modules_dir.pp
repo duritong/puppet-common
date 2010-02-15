@@ -33,3 +33,7 @@ define module_dir (
 {
   modules_dir{$name: mode => $mode, owner => $owner, group => $group }
 }
+
+# Use this variable to reference the base path. Thus you are safe from any
+# changes.
+$module_dir_path = '/var/lib/puppet/modules'
