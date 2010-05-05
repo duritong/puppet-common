@@ -4,8 +4,6 @@
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
-module_dir { "common/cf": }
-
 # TODO:
 # * create the directory in _part too
 
@@ -40,11 +38,12 @@ define concatenated_file (
 	$mode = 0644, $owner = root, $group = 0
 	)
 {
+    include common::moduledir::common::cf
 
 	$dir_real = $dir ? { '' => "${name}.d", default => $dir }
 
 	$tmp_file_name = regsubst($dir_real, '/', '_', 'G')
-	$tmp_file = "${module_dir_path}/${tmp_file_name}"
+	$tmp_file = "${common::moduledir::module_dir_path}/${tmp_file_name}"
 
 	if defined(File[$dir_real]) {
 		debug("${dir_real} already defined")

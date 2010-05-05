@@ -10,12 +10,13 @@ define modules_dir (
 		$mode = 0644, $owner = root, $group = 0
 	)
 {
-	$dir = "/var/lib/puppet/modules/${name}"
+    include common::moduledir
+	$dir = "$common::moduledir::module_dir_path/${name}"
 	if defined(File[$dir]) {
 		debug("${dir} already defined")
 	} else {
 		file {
-			"/var/lib/puppet/modules/${name}":
+			$dir:
 				source => [ "puppet://$server/modules/${name}/modules_dir", "puppet://$server/modules/common/empty"],
 				checksum => mtime,
 				# ignore the placeholder
@@ -33,7 +34,3 @@ define module_dir (
 {
   modules_dir{$name: mode => $mode, owner => $owner, group => $group }
 }
-
-# Use this variable to reference the base path. Thus you are safe from any
-# changes.
-$module_dir_path = '/var/lib/puppet/modules'
