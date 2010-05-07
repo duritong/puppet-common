@@ -5,12 +5,17 @@
 # See LICENSE for the full license granted to you.
 
 # Usage:
+# include common::moduledir
 # modules_dir { ["common", "common/dir1", "common/dir2" ]: }
+#
+# You may refer to a file in module_dir by using :
+# file { "${common::moduledir::module_dir_path}/somedir/somefile": }
+
 define modules_dir (
 		$mode = 0644, $owner = root, $group = 0
 	)
 {
-    include common::moduledir
+  include common::moduledir
 	$dir = "$common::moduledir::module_dir_path/${name}"
 	if defined(File[$dir]) {
 		debug("${dir} already defined")
