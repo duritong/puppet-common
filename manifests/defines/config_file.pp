@@ -4,10 +4,10 @@
 
 # Usage:
 # config_file { filename:
-# 	content => "....\n",
+#     content => "....\n",
 # }
 #
-# Examples: 
+# Examples:
 #
 # To create the file /etc/vservers/${vs_name}/context with specific
 # content:
@@ -28,26 +28,26 @@
 # }
 
 define config_file ($content = '', $source = '', $ensure = 'present') {
-	file { $name:
-		ensure => $ensure,
-		# keep old versions on the server
-		backup => server,
-		# default permissions for config files
-		mode => 0644, owner => root, group => 0,
-		# really detect changes to this file
-		checksum => md5,
-	}
+    file { $name:
+        ensure => $ensure,
+        # keep old versions on the server
+        backup => server,
+        # default permissions for config files
+        mode => 0644, owner => root, group => 0,
+        # really detect changes to this file
+        checksum => md5,
+    }
 
-	case $source {
-		'': { }
-		default: { File[$name] { source => $source } }
-	}
+    case $source {
+        '': { }
+        default: { File[$name] { source => $source } }
+    }
 
-	case $content {
-		'': { }
-		default: { File[$name] { content => $content } }
-	}
-				
+    case $content {
+        '': { }
+        default: { File[$name] { content => $content } }
+    }
+
 }
 
 

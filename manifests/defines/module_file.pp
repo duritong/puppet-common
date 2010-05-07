@@ -6,28 +6,28 @@
 
 # Usage:
 # modules_file { "module/file":
-# 	source => "puppet://${server}/...",
-# 	mode   => 644,   # default
-# 	owner  => root,  # default
-#		group  => 0,     # default
+#     source => "puppet://${server}/...",
+#     mode   => 644,   # default
+#     owner  => root,  # default
+#        group  => 0,     # default
 # }
 define module_file (
-		$source,
-		$mode = 0644, $owner = root, $group = 0
-	)
+        $source,
+        $mode = 0644, $owner = root, $group = 0
+    )
 {
-	include common::moduledir
-	file {
-		"${common::moduledir::module_dir_path}/${name}":
-			source => $source,
-			mode => $mode, owner => $owner, group => $group;
-	}
+    include common::moduledir
+    file {
+        "${common::moduledir::module_dir_path}/${name}":
+            source => $source,
+            mode => $mode, owner => $owner, group => $group;
+    }
 }
 
 # alias for compatibility
 define modules_file (
-		$source, $mode = 0644, $owner = root, $group = 0
-	)
+        $source, $mode = 0644, $owner = root, $group = 0
+    )
 {
   module_file { $name: source => $source, mode => $mode, owner => $owner, group => $group }
 }
