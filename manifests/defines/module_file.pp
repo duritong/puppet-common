@@ -9,18 +9,25 @@
 #     source => "puppet://${server}/...",
 #     mode   => 644,   # default
 #     owner  => root,  # default
-#        group  => 0,     # default
+#     group  => 0,     # default
 # }
 define module_file (
-        $source,
-        $mode = 0644, $owner = root, $group = 0
+	$source,
+	$ensure = present,
+	$alias = 'absent',
+	$mode = 0644, $owner = root, $group = 0
     )
 {
     include common::moduledir
     file {
         "${common::moduledir::module_dir_path}/${name}":
             source => $source,
+            ensure => $ensure,
             mode => $mode, owner => $owner, group => $group;
+    }
+    
+    if ($alias != 'absent') {
+    	File["${common::moduledir::module_dir_path}/${name}"] { alias => $alias }
     }
 }
 
