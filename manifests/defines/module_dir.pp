@@ -16,7 +16,7 @@ define module_dir (
     )
 {
     include common::moduledir
-    $dir = "$common::moduledir::module_dir_path/${name}"
+    $dir = "${common::moduledir::module_dir_path}/${name}"
     if defined(File[$dir]) {
         debug("${dir} already defined")
     } else {
