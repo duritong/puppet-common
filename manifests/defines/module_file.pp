@@ -14,7 +14,7 @@
 define module_file (
 	$source,
 	$ensure = present,
-	$alias = 'absent',
+	$alias = undef,
 	$mode = 0644, $owner = root, $group = 0
     )
 {
@@ -23,18 +23,23 @@ define module_file (
         "${common::moduledir::module_dir_path}/${name}":
             source => $source,
             ensure => $ensure,
+            alias => $alias,
             mode => $mode, owner => $owner, group => $group;
-    }
-    
-    if ($alias != 'absent') {
-    	File["${common::moduledir::module_dir_path}/${name}"] { alias => $alias }
     }
 }
 
 # alias for compatibility
 define modules_file (
-        $source, $mode = 0644, $owner = root, $group = 0
-    )
+    $source,
+	  $ensure = present,
+	  $alias = undef,
+    $mode = 0644, $owner = root, $group = 0
+  )
 {
-  module_file { $name: source => $source, mode => $mode, owner => $owner, group => $group }
+  module_file { $name:
+      source => $source,
+      ensure => $ensure,
+      alias => $alias,
+      mode => $mode, owner => $owner, group => $group
+      }
 }
