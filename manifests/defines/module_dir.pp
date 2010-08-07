@@ -22,7 +22,7 @@ define module_dir (
     } else {
         file {
             $dir:
-                source => [ "puppet://$server/modules/${name}/modules_dir", "puppet://$server/modules/common/empty"],
+                source => [ "puppet:///modules/${name}/modules_dir", "puppet:///modules/common/empty"],
                 checksum => mtime,
                 # ignore the placeholder
                 ignore => '.ignore',
