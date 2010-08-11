@@ -6,7 +6,7 @@
 
 # Usage:
 # modules_file { "module/file":
-#     source => "puppet://${server}/...",
+#     source => "puppet:///...",
 #     mode   => 644,   # default
 #     owner  => root,  # default
 #     group  => 0,     # default
