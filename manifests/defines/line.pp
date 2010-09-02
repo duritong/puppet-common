@@ -34,24 +34,21 @@
 #  		notify => Service[munin-node],
 #  		require => Package[munin-node];
 #  }
-define line(
-	$file,
-	$line,
-	$ensure = 'present'
-) {
-	case $ensure {
-		default : { err ( "unknown ensure value '${ensure}'" ) }
-		present: {
-			exec { "echo '${line}' >> '${file}'":
-				unless => "grep -qFx '${line}' '${file}'"
-			}
-		}
-		absent: {
-			exec { "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
-				onlyif => "grep -qFx '${line}' '${file}'"
-			}
-		}
-	}
+define line($file, $line, $ensure = 'present') {
+  case $ensure {
+    default : { err ( "unknown ensure value '${ensure}'" ) }
+    present: {
+      exec { "echo '${line}' >> '${file}'":
+        unless => "grep -qFx '${line}' '${file}'"
+      }
+    }
+    absent: {
+      $subst_line = regsubst($line,'(/|\.)','\\\1','G')
+      exec { "sed -i '/${subst_line}/d' '${file}'":
+        onlyif => "grep -qFx '${line}' '${file}'"
+      }
+    }
+  }
 }
 
 
