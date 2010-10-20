@@ -6,5 +6,5 @@ Puppet::Parser::Functions::newfunction(
     Example: uniq_flatten([['a','b'],'a']) -> ['a','b']"
 ) do |args|
   raise Puppet::ParseError, 'uniq_flatten() needs one arguments' if args.length != 1
-  args[0].to_a.flatten.uniq
+  args[0].to_a.flatten.collect(&:to_s).uniq
 end
