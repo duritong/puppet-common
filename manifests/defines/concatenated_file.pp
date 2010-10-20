@@ -28,6 +28,7 @@
 #      dir => "/etc/some.conf.d",
 #  }
 define concatenated_file (
+    $ensure = 'present',
     # where the snippets are located
     $dir = '',
     # a file with content to prepend
@@ -50,6 +51,10 @@ define concatenated_file (
     } else {
         file {
             $dir_real:
+                ensure => $ensure ? {
+                  'present' => directory,
+                  default => $ensure
+                },
                 source => "puppet:///modules/common/empty",
                 checksum => mtime,
                 ignore => '.ignore',
@@ -61,40 +66,41 @@ define concatenated_file (
 
     file {
         $tmp_file:
-            ensure => present, checksum => md5,
+            ensure => $ensure, checksum => md5,
             mode => $mode, owner => $owner, group => $group;
         # decouple the actual file from the generation process by using a
         # temporary file and puppet's source mechanism. This ensures that events
         # for notify/subscribe will only be generated when there is an actual
         # change.
         $name:
-            ensure => present, checksum => md5,
+            ensure => $ensure, checksum => md5,
             source => $tmp_file,
             mode => $mode, owner => $owner, group => $group,
             require => File[$tmp_file];
     }
 
-    # if there is a header or footer file, add it
-    $additional_cmd = $header ? {
+    if $ensure == 'present' {
+      # if there is a header or footer file, add it
+      $additional_cmd = $header ? {
         '' => $footer ? {
-            '' => '',
-            default => "| cat - '${footer}' "
+          '' => '',
+          default => "| cat - '${footer}' "
         },
         default => $footer ? {
-            '' => "| cat '${header}' - ",
-            default => "| cat '${header}' - '${footer}' "
+          '' => "| cat '${header}' - ",
+          default => "| cat '${header}' - '${footer}' "
         }
-    }
+      }
 
-    # use >| to force clobbering the target file
-    exec { "concat_${name}":
+      # use >| to force clobbering the target file
+      exec { "concat_${name}":
         command => "/usr/bin/find ${dir_real} -maxdepth 1 -type f ! -name '*puppettmp' -print0 | sort -z | xargs -0 cat ${additional_cmd} >| ${tmp_file}",
         subscribe => [ File[$dir_real] ],
         before => File[$tmp_file],
         alias => [ "concat_${dir_real}"],
         loglevel => info
+      }
     }
-
 }
 
 
