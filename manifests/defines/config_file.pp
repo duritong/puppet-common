@@ -33,7 +33,7 @@ define config_file ($content = '', $source = '', $ensure = 'present') {
     file { $name:
         ensure => $ensure,
         # keep old versions on the server
-        backup => server,
+        backup => puppet,
         # default permissions for config files
         mode => 0644, owner => root, group => 0,
         # really detect changes to this file
