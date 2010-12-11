@@ -2,7 +2,7 @@
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
-# A hack to replace all ocurrances of a regular expression in a file with a
+# A hack to replace all occurrences of a regular expression in a file with a
 # specified string. Sometimes it can be less effort to replace only a single
 # value in a huge config file instead of creating a template out of it. Still,
 # creating a template is often better than this hack.
