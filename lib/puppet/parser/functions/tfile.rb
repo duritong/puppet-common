@@ -14,5 +14,5 @@ Puppet::Parser::Functions::newfunction(
     require 'fileutils'
     FileUtils.touch(path)
   end
-  function_file([path])
+  File.read(path)
 end

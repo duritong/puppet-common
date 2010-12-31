@@ -24,10 +24,10 @@ describe "the tfile function" do
   describe "when executed properly" do
 
     before :each do
-       Puppet::Parser::Scope.any_instance.stubs(:function_file).with(['/some_path/aa']).returns("foo1\nfoo2\n")
+       File.stubs(:read).with('/some_path/aa').returns("foo1\nfoo2\n")
     end
 
-    it "should return the content of the file by calling the puppet file function" do
+    it "should return the content of the file" do
       File.stubs(:exists?).with('/some_path/aa').returns(true)
       result = @scope.function_tfile(['/some_path/aa'])
       result.should == "foo1\nfoo2\n"
