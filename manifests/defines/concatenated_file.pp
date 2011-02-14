@@ -4,8 +4,6 @@
 # Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
 # See LICENSE for the full license granted to you.
 
-module_dir { "common/cf": }
-
 # TODO:
 # * create the directory in _part too
 
