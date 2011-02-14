@@ -1,15 +1,5 @@
-# Prefixes arguments 2..n with first argument.
-#
-#  prefix_with(string prefix, string[] arguments) : string[]
-#
-# Example:
-#
-#  prefix_with("php-", [ "blah", "foo" ])
-#
-# will result in this array:
-#
-#  [ "php-blah", "php-foo" ]
-#
+# prefix arguments 2..n with first argument
+
 module Puppet::Parser::Functions
 	newfunction(:prefix_with, :type => :rvalue) do |args|
 		prefix = args.shift

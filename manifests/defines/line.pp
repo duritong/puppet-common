@@ -14,11 +14,10 @@
 # is a more stable solution with less maintenance headaches afterwards.
 #
 # Usage:
-# line {
-#   description:
-#     file => "filename",
-#     line => "content",
-#     ensure => {absent,*present*}
+# line { description:
+#   file => "filename",
+#   line => "content",
+#   ensure => {absent,*present*}
 # }
 #
 # Example:
@@ -39,27 +38,16 @@
 # http://reductivelabs.com/trac/puppet/wiki/Recipes/SimpleText
 define line($file, $line, $ensure = 'present') {
   case $ensure {
-    default: { err ( "unknown ensure value ${ensure}" ) }
+    default : { err ( "unknown ensure value '${ensure}'" ) }
     present: {
-      exec { "/bin/echo '${line}' >> '${file}'":
-        unless  => "/bin/grep -qFx '${line}' '${file}'",
-        require => File["${file}"],
+      exec { "echo '${line}' >> '${file}'":
+        unless => "grep -qFx '${line}' '${file}'"
       }
     }
     absent: {
-      exec { "/usr/bin/perl -ni -e 'print unless /^\\Q${line}\\E\$/' '${file}'":
-        onlyif => "/bin/grep -qFx '${line}' '${file}'",
-      }
-    }
-    uncomment: {
-      exec { "/bin/sed -i -e'/${line}/s/^#\+//' '${file}'":
-        onlyif => "/bin/grep '${line}' '${file}' | /bin/grep '^#' | /usr/bin/wc -l"
-      }
-    }
-    comment: {
-      exec { "/bin/sed -i -e'/${line}/s/^\(.\+\)$/#\1/' '${file}'":
-        onlyif  => "/usr/bin/test `/bin/grep '${line}' '${file}' | /bin/grep -v '^#' | /usr/bin/wc -l` -ne 0",
-        require => File["${file}"],
+      $subst_line = regsubst($line,'(/|\.)','\\\1','G')
+      exec { "sed -i '/${subst_line}/d' '${file}'":
+        onlyif => "grep -qFx '${line}' '${file}'"
       }
     }
   }

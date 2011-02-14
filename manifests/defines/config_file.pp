@@ -5,11 +5,11 @@
 # A simple wrapper to give all configuration files common defaults.
 # 
 # Usage:
-#  config_file { filename:
-#  	content => "....\n",
-#  }
+# config_file { filename:
+#     content => "....\n",
+# }
 #
-# Examples: 
+# Examples:
 #
 # To create the file /etc/vservers/${vs_name}/context with specific
 # content:
@@ -24,35 +24,33 @@
 # To create the file /etc/apache2/sites-available/munin-stats with the
 # content pulled from a template:
 #
-#  config_file {
-# 		"/etc/apache2/sites-available/munin-stats":
-#  		content => template("apache/munin-stats"),
-#  		require => Package["apache2"],
-#  		notify => Exec["reload-apache2"];
-#  }
-define config_file (
-	$content = '',
-	$source = '',
-	$ensure = 'present')
-{
-	file { $name:
-		ensure => $ensure,
-		# default permissions for config files
-		mode => 0644, owner => root, group => 0,
-		# really detect changes to this file
-		checksum => md5,
-	}
+# config_file { "/etc/apache2/sites-available/munin-stats":
+#              content => template("apache/munin-stats"),
+#              require => Package["apache2"],
+#              notify => Exec["reload-apache2"]
+# }
 
-	case $source {
-		'': { }
-		default: { File[$name] { source => $source } }
-	}
+define config_file ($content = '', $source = '', $ensure = 'present') {
+    file { $name:
+        ensure => $ensure,
+        # keep old versions on the server
+        backup => puppet,
+        # default permissions for config files
+        mode => 0644, owner => root, group => 0,
+        # really detect changes to this file
+        checksum => md5,
+    }
 
-	case $content {
-		'': { }
-		default: { File[$name] { content => $content } }
-	}
-				
+    case $source {
+        '': { }
+        default: { File[$name] { source => $source } }
+    }
+
+    case $content {
+        '': { }
+        default: { File[$name] { content => $content } }
+    }
+
 }
 
 
