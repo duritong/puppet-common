@@ -14,11 +14,10 @@
 # is a more stable solution with less maintenance headaches afterwards.
 #
 # Usage:
-# line {
-#   description:
-#     file => "filename",
-#     line => "content",
-#     ensure => {absent,*present*}
+# line { description:
+#   file => "filename",
+#   line => "content",
+#   ensure => {absent,*present*}
 # }
 #
 # Example:
@@ -34,6 +33,10 @@
 #  		notify => Service[munin-node],
 #  		require => Package[munin-node];
 #  }
+#
+# Code with fixes gathered at
+# http://reductivelabs.com/trac/puppet/wiki/Recipes/SimpleText
+>>>>>>> sarava/master
 define line($file, $line, $ensure = 'present') {
   case $ensure {
     default : { err ( "unknown ensure value '${ensure}'" ) }
@@ -50,5 +53,3 @@ define line($file, $line, $ensure = 'present') {
     }
   }
 }
-
-

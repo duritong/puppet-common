@@ -16,7 +16,7 @@
 define module_file (
 	$source,
 	$ensure = present,
-	$alias = undef,
+	$m_alias = undef,
 	$mode = 0644, $owner = root, $group = 0
     )
 {
@@ -25,7 +25,7 @@ define module_file (
         "${common::moduledir::module_dir_path}/${name}":
             source => $source,
             ensure => $ensure,
-            alias => $alias,
+            alias => $m_alias,
             mode => $mode, owner => $owner, group => $group;
     }
 }
@@ -34,14 +34,14 @@ define module_file (
 define modules_file (
     $source,
 	  $ensure = present,
-	  $alias = undef,
+	  $m_alias = undef,
     $mode = 0644, $owner = root, $group = 0
   )
 {
   module_file { $name:
       source => $source,
       ensure => $ensure,
-      alias => $alias,
+      alias => $m_alias,
       mode => $mode, owner => $owner, group => $group
       }
 }
