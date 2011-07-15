@@ -7,8 +7,6 @@ class common::moduledir {
     # module-local data, e.g. for constructing config files
     file{$module_dir_path:
         ensure => directory,
-        source => "puppet:///modules/common/modules/",
-        ignore => '.ignore',
         recurse => true, purge => true, force => true,
         mode => 0755, owner => root, group => 0;
     }

@@ -55,9 +55,7 @@ define concatenated_file (
                   'present' => directory,
                   default => $ensure
                 },
-                source => "puppet:///modules/common/empty",
                 checksum => mtime,
-                ignore => '.ignore',
                 recurse => true, purge => true, force => true,
                 mode => $mode, owner => $owner, group => $group,
                 notify => Exec["concat_${name}"];
