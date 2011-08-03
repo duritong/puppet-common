@@ -1,3 +1,4 @@
 class common::moduledir::common{
-    module_dir{'common': }
+  include ::common::moduledir
+  module_dir{'common': }
 }
