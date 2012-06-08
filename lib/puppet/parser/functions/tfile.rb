@@ -9,7 +9,8 @@ Puppet::Parser::Functions::newfunction(
   unless File.exists?(path)
     dir = File.dirname(path)
     unless File.directory?(dir)
-      Puppet::Util.recmkdir(dir,0700)
+      require 'fileutils'
+      FileUtils.mkdir_p(dir, :mode => 0700)
     end
     require 'fileutils'
     FileUtils.touch(path)
