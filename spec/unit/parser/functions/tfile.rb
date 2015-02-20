@@ -44,7 +44,7 @@ describe "the tfile function" do
     it "should create the path if it does not exist" do
       File.stubs(:exists?).with('/some_path/aa').returns(false)
       File.stubs(:directory?).with('/some_path').returns(false)
-      Puppet::Util.expects(:recmkdir).with("/some_path",0700)
+      FileUtils.expects(:mkdir_p).with("/some_path",:mode => 0700)
       FileUtils.expects(:touch).with('/some_path/aa')
       result = @scope.function_tfile(['/some_path/aa'])
       result.should == "foo1\nfoo2\n"
