@@ -1,3 +1,4 @@
+# setup a common dir
 class common::moduledir::common{
-    module_dir{'common': }
+  common::module_dir{'common': }
 }
