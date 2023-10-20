@@ -6,7 +6,7 @@ Puppet::Parser::Functions::newfunction(
 ) do |args|
   raise Puppet::ParseError, 'tfile() needs one argument' if args.length != 1
   path = args.to_a.first
-  unless File.exists?(path)
+  unless File.exist?(path)
     dir = File.dirname(path)
     unless File.directory?(dir)
       require 'fileutils'
